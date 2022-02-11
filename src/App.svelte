@@ -3,7 +3,7 @@
   import { addLetter, removeLetter } from "./utils.js";
 
   let word = "";
-  let tilesState = Array.from({ length: 5 }, () => "DEFAULT");
+  let tilesState = Array.from({ length: 5 }, () => "FILLED");
 
   function handleKeyDown(e) {
     const { key } = e;
@@ -23,7 +23,10 @@
   <div class="board">
     <div class="row">
       {#each tilesState as tileState, i}
-        <Letter letter={word[i] || ""} {tileState} />
+        <Letter
+          letter={word[i] || ""}
+          tileState={word[i] ? tileState : "EMPTY"}
+        />
       {/each}
     </div>
   </div>
@@ -37,6 +40,12 @@
   :global(*:before),
   :global(*:after) {
     box-sizing: inherit;
+  }
+
+  :global(:root) {
+    --header-color: purple;
+    --tile-text-color: red;
+    --tile-border-color: gray;
   }
 
   main {
