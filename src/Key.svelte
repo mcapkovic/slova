@@ -1,9 +1,12 @@
 <script>
   export let keyValue = "";
   export let flex = 1;
+
   const keySymbol = keyValue === "Backspace" ? "⌫" : keyValue;
+  let buttonRef;
 
   function handleClick() {
+    buttonRef.blur();
     document.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: keyValue,
@@ -12,7 +15,7 @@
   }
 </script>
 
-<button on:click={handleClick} style={`flex: ${flex}`}>
+<button on:click={handleClick} style={`flex: ${flex}`} bind:this={buttonRef}>
   {keySymbol}
 </button>
 
