@@ -1,6 +1,6 @@
 <script>
   import WordRow from "./WordRow.svelte";
-
+  import Keyboard from "./Keyboard.svelte";
   import Letter from "./Letter.svelte";
   import { addLetter, removeLetter, removeAccents } from "./utils.js";
   import { allWords } from "./slovakWords.js";
@@ -14,34 +14,31 @@
   let activeRow = 1;
 
   function nextRow() {
-    if(activeRow === 6) return alert('done')
+    if (activeRow === 6) return alert("done");
     activeRow += 1;
   }
 
-  function winGame(){
-    alert('yout won')
+  function winGame() {
+    alert("yout won");
     activeRow = 99;
   }
-
-  function handleKeyDown(e) {
-    lastPressedKey = e.key;
-  }
-
-  document.addEventListener("keydown", handleKeyDown);
 </script>
 
 <main>
-  <span>{solution}</span>
-  <span>{noAccentSolution}</span>
+  <div>
+    <span>{solution}</span>
+    <span>{noAccentSolution}</span>
+  </div>
+
   <div class="board">
     <WordRow {solution} active={activeRow === 1} {nextRow} {winGame} />
-    <WordRow {solution} active={activeRow === 2} {nextRow} {winGame}/>
-    <WordRow {solution} active={activeRow === 3} {nextRow} {winGame}/>
-    <WordRow {solution} active={activeRow === 4} {nextRow} {winGame}/>
-    <WordRow {solution} active={activeRow === 5} {nextRow} {winGame}/>
-    <WordRow {solution} active={activeRow === 6} {nextRow} {winGame}/>
-
+    <WordRow {solution} active={activeRow === 2} {nextRow} {winGame} />
+    <WordRow {solution} active={activeRow === 3} {nextRow} {winGame} />
+    <WordRow {solution} active={activeRow === 4} {nextRow} {winGame} />
+    <WordRow {solution} active={activeRow === 5} {nextRow} {winGame} />
+    <WordRow {solution} active={activeRow === 6} {nextRow} {winGame} />
   </div>
+  <Keyboard />
 </main>
 
 <style>
@@ -68,6 +65,12 @@
   main {
     height: 100vh;
     color: white;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
   }
   .board {
     display: grid;
@@ -76,6 +79,7 @@
     width: 350px;
     height: 417px;
     padding: 10px;
+    /* margin: 0 auto; */
   }
   .row {
     display: grid;
