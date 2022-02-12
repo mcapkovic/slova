@@ -1,26 +1,24 @@
 <script>
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
-  import Letter from "./Letter.svelte";
-  import { addLetter, removeLetter, removeAccents } from "./utils.js";
+  import { removeAccents } from "./utils.js";
   import { allWords } from "./slovakWords.js";
-  import { FILLED, EMPTY, CORRECT, PRESENT, ABSENT } from "./constants";
-  const noAccentWords = allWords.map((x) => removeAccents(x));
   let solution = allWords[(allWords.length * Math.random()) | 0].toLowerCase();
-  // const solution ='zápač'
   let noAccentSolution = removeAccents(solution);
-
-  let lastPressedKey = "";
   let activeRow = 1;
 
-  function nextRow() {
-    if (activeRow === 6) return alert("done");
-    activeRow += 1;
+  function looseGame() {
+    alert(`prehral si. slovo bolo "${solution}"`);
   }
 
   function winGame() {
-    alert("yout won");
+    alert("vyhral si");
     activeRow = 99;
+  }
+
+  function nextRow() {
+    if (activeRow === 6) return looseGame();
+    activeRow += 1;
   }
 </script>
 
@@ -79,7 +77,6 @@
     width: 350px;
     height: 417px;
     padding: 10px;
-    /* margin: 0 auto; */
   }
   .row {
     display: grid;
