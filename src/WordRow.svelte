@@ -22,26 +22,31 @@
         availableLetters[letter] = 1;
       }
     }
-    console.log(solution);
+
     for (let index = 0; index < noAccentSolution.length; index++) {
       const solutionLetter = noAccentSolution[index];
       const quessLetter = noAccentWord[index];
-
       if (solutionLetter === quessLetter) {
         tilesState[index] = CORRECT;
         availableLetters[solutionLetter] -= 1;
-      } else if (
-        quessLetter in availableLetters &&
-        availableLetters[quessLetter] > 0
-      ) {
-        tilesState[index] = PRESENT;
-        availableLetters[quessLetter] -= 1;
       } else {
         tilesState[index] = ABSENT;
       }
     }
 
-    if (noAccentSolution === noAccentWord) winGame();
+    for (let index = 0; index < noAccentSolution.length; index++) {
+      const solutionLetter = noAccentSolution[index];
+      const quessLetter = noAccentWord[index];
+      if (solutionLetter === quessLetter) continue;
+      if (!(quessLetter in availableLetters)) continue;
+      if (availableLetters[quessLetter] < 1) continue;
+      tilesState[index] = PRESENT;
+      availableLetters[quessLetter] -= 1;
+    }
+
+    if (noAccentSolution !== noAccentWord) return
+    word = solution
+    winGame();
   }
 
   function handleKeyDown(e) {
@@ -63,6 +68,7 @@
   } else {
     document.removeEventListener("keydown", handleKeyDown);
   }
+
 </script>
 
 <div class="row">
