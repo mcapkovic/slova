@@ -590,6 +590,7 @@ export const allWords = [
 	'pažba',
 	'páper',
 	'panva',
+	'panda',
 	'pápež',
 	'pária',
 	'pasáž',
