@@ -5,7 +5,7 @@
   }
 
   export function addLetter(word, character) {
-    if (word.length > 5) return word;
+    if (word.length >= 5) return word;
     return word + character;
   }
 
@@ -22,3 +22,8 @@
       .filter((argument) => !!argument)
       .join(" ");
   }
+
+  // REMOVE ACCENTS
+export function removeAccents (str) {
+	return str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+}
