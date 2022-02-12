@@ -30,18 +30,19 @@
 </script>
 
 <main>
-  <div>
-    <button class="cheat" on:click={() => alert(solution)}
+  <header class="header">
+    <button class="cheat" on:click={() => alert(`slovo je '${solution}'`)}
       >chcem podvadzat</button
     >
-  </div>
+    <a href="https://www.nytimes.com/games/wordle/index.html"> original game</a>
+  </header>
 
   <div class="board">
-    {#each [1, 2, 3, 4, 5, 6] as row, i}
+    {#each [1, 2, 3, 4, 5, 6] as rowNumber, i}
       <WordRow
         {solution}
         {noAccentWords}
-        active={activeRow === row}
+        active={activeRow === rowNumber}
         {nextRow}
         {winGame}
       />
@@ -71,6 +72,13 @@
     --background-color: #121213;
   }
 
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 2rem;
+  }
   main {
     height: 100%;
     color: white;

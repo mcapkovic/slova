@@ -44,8 +44,8 @@ export function getKeysState(gameState) {
 }
 
 export function getKeyState(keyValue, keyboardState) {
-  if (keyboardState.CORRECT.includes(keyValue)) return "CORRECT";
-  if (keyboardState.PRESENT.includes(keyValue)) return "PRESENT";
-  if (keyboardState.ABSENT.includes(keyValue)) return "ABSENT";
+  if (keyboardState?.CORRECT.includes(keyValue)) return "CORRECT";
+  if (keyboardState?.PRESENT.includes(keyValue)) return "PRESENT";
+  if (keyboardState?.ABSENT.includes(keyValue)) return "ABSENT";
   return "";
 }
