@@ -47,8 +47,9 @@
       availableLetters[quessLetter] -= 1;
     }
 
-    nextRow({ tilesState, typedWord });
-    if (noAccentSolution !== noAccentWord) return;
+    const isWinner = noAccentSolution === noAccentWord;
+    nextRow({ tilesState, typedWord }, isWinner);
+    if (!isWinner) return;
     typedWord = solution;
     winGame();
   }

@@ -20,11 +20,11 @@
     activeRow = 99;
   }
 
-  function nextRow(rowState) {
+  function nextRow(rowState, isWinner) {
     gameState.words[activeRow - 1] = rowState.typedWord;
     gameState.validations[activeRow - 1] = rowState.tilesState;
 
-    if (activeRow === 6) return looseGame();
+    if (activeRow === 6 && !isWinner) return looseGame();
     activeRow += 1;
   }
 </script>
