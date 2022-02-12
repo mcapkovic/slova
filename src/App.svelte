@@ -3,10 +3,12 @@
   import Keyboard from "./Keyboard.svelte";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
+  import { DEFAULT_GAME_STATE } from "./constants.js";
 
   let noAccentWords = allWords.map((x) => removeAccents(x));
   let solution = allWords[(allWords.length * Math.random()) | 0].toLowerCase();
   let activeRow = 1;
+  let gameState = DEFAULT_GAME_STATE;
 
   function looseGame() {
     alert(`prehral si. slovo bolo "${solution}"`);
@@ -18,7 +20,10 @@
     activeRow = 99;
   }
 
-  function nextRow() {
+  function nextRow(rowState) {
+    gameState.words[activeRow - 1] = rowState.typedWord;
+    gameState.validations[activeRow - 1] = rowState.tilesState;
+
     if (activeRow === 6) return looseGame();
     activeRow += 1;
   }
@@ -42,7 +47,7 @@
       />
     {/each}
   </div>
-  <Keyboard />
+  <Keyboard {gameState} />
 </main>
 
 <style>

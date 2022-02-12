@@ -14,7 +14,8 @@
 
   function submitWord() {
     const noAccentWord = removeAccents(typedWord);
-    if(!noAccentWords.includes(noAccentWord)) return alert('toto slovo nemam v slovniku')
+    if (!noAccentWords.includes(noAccentWord))
+      return alert("toto slovo nemam v slovniku");
 
     const availableLetters = {};
     for (const letter of noAccentSolution) {
@@ -45,9 +46,10 @@
       tilesState[index] = TILE_STATE.PRESENT;
       availableLetters[quessLetter] -= 1;
     }
-    nextRow();
-    if (noAccentSolution !== noAccentWord) return
-    typedWord = solution
+
+    nextRow({ tilesState, typedWord });
+    if (noAccentSolution !== noAccentWord) return;
+    typedWord = solution;
     winGame();
   }
 
@@ -72,7 +74,10 @@
 
 <div class="row">
   {#each tilesState as tileState, i}
-    <Letter letter={typedWord[i] || ""} tileState={typedWord[i] ? tileState : TILE_STATE.EMPTY} />
+    <Letter
+      letter={typedWord[i] || ""}
+      tileState={typedWord[i] ? tileState : TILE_STATE.EMPTY}
+    />
   {/each}
 </div>
 
