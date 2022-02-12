@@ -1,19 +1,18 @@
 <script>
   import Letter from "./Letter.svelte";
   import { addLetter, removeLetter, removeAccents } from "./utils.js";
-  import { FILLED, EMPTY, CORRECT, PRESENT, ABSENT, KEYS } from "./constants";
+  import { KEYS, TILE_STATE } from "./constants";
   export let solution = "";
   export let active = false;
   export let nextRow = () => {};
   export let winGame = () => {};
 
   let noAccentSolution = removeAccents(solution);
-
-  let word = "";
-  let tilesState = Array.from({ length: 5 }, () => FILLED);
+  let typedWord = "";
+  let tilesState = Array.from({ length: 5 }, () => TILE_STATE.FILLED);
 
   function submitWord() {
-    const noAccentWord = removeAccents(word);
+    const noAccentWord = removeAccents(typedWord);
     const availableLetters = {};
     for (const letter of noAccentSolution) {
       if (letter in availableLetters) {
@@ -27,10 +26,10 @@
       const solutionLetter = noAccentSolution[index];
       const quessLetter = noAccentWord[index];
       if (solutionLetter === quessLetter) {
-        tilesState[index] = CORRECT;
+        tilesState[index] = TILE_STATE.CORRECT;
         availableLetters[solutionLetter] -= 1;
       } else {
-        tilesState[index] = ABSENT;
+        tilesState[index] = TILE_STATE.ABSENT;
       }
     }
 
@@ -40,26 +39,25 @@
       if (solutionLetter === quessLetter) continue;
       if (!(quessLetter in availableLetters)) continue;
       if (availableLetters[quessLetter] < 1) continue;
-      tilesState[index] = PRESENT;
+      tilesState[index] = TILE_STATE.PRESENT;
       availableLetters[quessLetter] -= 1;
     }
 
     if (noAccentSolution !== noAccentWord) return
-    word = solution
+    typedWord = solution
     winGame();
   }
 
   function handleKeyDown(e) {
     const { key } = e;
-    // console.log(e);
 
     if (key === KEYS.BACKSPACE) {
-      word = removeLetter(word);
-    } else if (key === KEYS.ENTER && word.length === 5) {
+      typedWord = removeLetter(typedWord);
+    } else if (key === KEYS.ENTER && typedWord.length === 5) {
       submitWord();
       nextRow();
     } else if (/^\p{L}$/u.test(key)) {
-      word = addLetter(word, key).toLowerCase();
+      typedWord = addLetter(typedWord, key).toLowerCase();
     }
   }
 
@@ -68,12 +66,11 @@
   } else {
     document.removeEventListener("keydown", handleKeyDown);
   }
-
 </script>
 
 <div class="row">
   {#each tilesState as tileState, i}
-    <Letter letter={word[i] || ""} tileState={word[i] ? tileState : EMPTY} />
+    <Letter letter={typedWord[i] || ""} tileState={typedWord[i] ? tileState : TILE_STATE.EMPTY} />
   {/each}
 </div>
 
