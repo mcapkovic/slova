@@ -34,6 +34,7 @@
     width: 100%;
     max-width: 40rem;
     touch-action: manipulation;
+    margin-bottom: 1rem;
   }
 
   .row {
