@@ -9,6 +9,7 @@
 
   function looseGame() {
     alert(`prehral si. slovo bolo "${solution}"`);
+    activeRow = 99;
   }
 
   function winGame() {
@@ -61,10 +62,10 @@
   }
 
   main {
-    height: 100vh;
+    /* height: 100vh; */
+    height: 100%;
     color: white;
     margin: 0 auto;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -77,10 +78,5 @@
     width: 350px;
     height: 417px;
     padding: 10px;
-  }
-  .row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 5px;
   }
 </style>

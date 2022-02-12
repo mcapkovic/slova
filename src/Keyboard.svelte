@@ -24,10 +24,7 @@
 
   <div class="row last-row">
     {#each rows[2] as keyValue, i}
-      <Key
-        {keyValue}
-        flex={i === 0 || i === rows[2].length - 1 ? 1.5 : 1}
-      />
+      <Key {keyValue} flex={i === 0 || i === rows[2].length - 1 ? 1.5 : 1} />
     {/each}
   </div>
 </div>
@@ -36,6 +33,7 @@
   .keyboard {
     width: 100%;
     max-width: 40rem;
+    touch-action: manipulation;
   }
 
   .row {
