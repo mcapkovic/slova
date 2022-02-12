@@ -1,74 +1,46 @@
 <script>
+  import WordRow from "./WordRow.svelte";
+
   import Letter from "./Letter.svelte";
   import { addLetter, removeLetter, removeAccents } from "./utils.js";
   import { allWords } from "./slovakWords.js";
   import { FILLED, EMPTY, CORRECT, PRESENT, ABSENT } from "./constants";
   const noAccentWords = allWords.map((x) => removeAccents(x));
   let solution = allWords[(allWords.length * Math.random()) | 0].toLowerCase();
+  // const solution ='zápač'
   let noAccentSolution = removeAccents(solution);
 
-  let word = "";
-  let tilesState = Array.from({ length: 5 }, () => FILLED);
+  let lastPressedKey = "";
+  let activeRow = 1;
 
-  function submitWord() {
-    const noAccentWord = removeAccents(word);
+  function nextRow() {
+    if(activeRow === 6) return alert('done')
+    activeRow += 1;
+  }
 
-    const availableLetters = {};
-    for (const letter of noAccentSolution) {
-      if (letter in availableLetters) {
-        availableLetters[letter] += 1;
-      } else {
-        availableLetters[letter] = 1;
-      }
-    }
-
-    for (let index = 0; index < noAccentSolution.length; index++) {
-      const solutionLetter = noAccentSolution[index];
-      const quessLetter = noAccentWord[index];
-
-      if (solutionLetter === quessLetter) {
-        tilesState[index] = CORRECT;
-        availableLetters[solutionLetter] -= 1;
-      } else if (
-        quessLetter in availableLetters &&
-        availableLetters[quessLetter] > 0
-      ) {
-        tilesState[index] = PRESENT;
-        availableLetters[quessLetter] -= 1;
-      } else {
-        tilesState[index] = ABSENT;
-      }
-    }
+  function winGame(){
+    alert('yout won')
+    activeRow = 99;
   }
 
   function handleKeyDown(e) {
-    const { key } = e;
-    // console.log(e);
-
-    if (key === "Backspace") {
-      word = removeLetter(word);
-    } else if (key === "Enter" && word.length === 5) {
-      submitWord();
-    } else if (/^\p{L}$/u.test(key)) {
-      word = addLetter(word, key).toLowerCase();
-    }
+    lastPressedKey = e.key;
   }
 
   document.addEventListener("keydown", handleKeyDown);
 </script>
 
-<main on:keydown={handleKeyDown}>
+<main>
   <span>{solution}</span>
   <span>{noAccentSolution}</span>
   <div class="board">
-    <div class="row">
-      {#each tilesState as tileState, i}
-        <Letter
-          letter={word[i] || ""}
-          tileState={word[i] ? tileState : EMPTY}
-        />
-      {/each}
-    </div>
+    <WordRow {solution} active={activeRow === 1} {nextRow} {winGame} />
+    <WordRow {solution} active={activeRow === 2} {nextRow} {winGame}/>
+    <WordRow {solution} active={activeRow === 3} {nextRow} {winGame}/>
+    <WordRow {solution} active={activeRow === 4} {nextRow} {winGame}/>
+    <WordRow {solution} active={activeRow === 5} {nextRow} {winGame}/>
+    <WordRow {solution} active={activeRow === 6} {nextRow} {winGame}/>
+
   </div>
 </main>
 
