@@ -1,10 +1,11 @@
 <script>
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
-  import { removeAccents } from "./utils.js";
   import { allWords } from "./slovakWords.js";
+  import { removeAccents } from "./utils.js";
+
+  let noAccentWords = allWords.map((x) => removeAccents(x));
   let solution = allWords[(allWords.length * Math.random()) | 0].toLowerCase();
-  let noAccentSolution = removeAccents(solution);
   let activeRow = 1;
 
   function looseGame() {
@@ -26,16 +27,18 @@
 <main>
   <div>
     <span>{solution}</span>
-    <span>{noAccentSolution}</span>
   </div>
 
   <div class="board">
-    <WordRow {solution} active={activeRow === 1} {nextRow} {winGame} />
-    <WordRow {solution} active={activeRow === 2} {nextRow} {winGame} />
-    <WordRow {solution} active={activeRow === 3} {nextRow} {winGame} />
-    <WordRow {solution} active={activeRow === 4} {nextRow} {winGame} />
-    <WordRow {solution} active={activeRow === 5} {nextRow} {winGame} />
-    <WordRow {solution} active={activeRow === 6} {nextRow} {winGame} />
+    {#each [1, 2, 3, 4, 5, 6] as row, i}
+      <WordRow
+        {solution}
+        {noAccentWords}
+        active={activeRow === row}
+        {nextRow}
+        {winGame}
+      />
+    {/each}
   </div>
   <Keyboard />
 </main>

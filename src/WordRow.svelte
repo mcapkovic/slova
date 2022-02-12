@@ -3,6 +3,7 @@
   import { addLetter, removeLetter, removeAccents } from "./utils.js";
   import { KEYS, TILE_STATE } from "./constants";
   export let solution = "";
+  export let noAccentWords = [];
   export let active = false;
   export let nextRow = () => {};
   export let winGame = () => {};
@@ -13,6 +14,8 @@
 
   function submitWord() {
     const noAccentWord = removeAccents(typedWord);
+    if(!noAccentWords.includes(noAccentWord)) return alert('toto slovo nemam v slovniku')
+
     const availableLetters = {};
     for (const letter of noAccentSolution) {
       if (letter in availableLetters) {
@@ -42,7 +45,7 @@
       tilesState[index] = TILE_STATE.PRESENT;
       availableLetters[quessLetter] -= 1;
     }
-
+    nextRow();
     if (noAccentSolution !== noAccentWord) return
     typedWord = solution
     winGame();
@@ -55,7 +58,6 @@
       typedWord = removeLetter(typedWord);
     } else if (key === KEYS.ENTER && typedWord.length === 5) {
       submitWord();
-      nextRow();
     } else if (/^\p{L}$/u.test(key)) {
       typedWord = addLetter(typedWord, key).toLowerCase();
     }
