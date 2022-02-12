@@ -26,7 +26,9 @@
 
 <main>
   <div>
-    <span>{solution}</span>
+    <button class="cheat" on:click={() => alert(solution)}
+      >chcem podvadzat</button
+    >
   </div>
 
   <div class="board">
@@ -65,7 +67,6 @@
   }
 
   main {
-    /* height: 100vh; */
     height: 100%;
     color: white;
     margin: 0 auto;
@@ -73,6 +74,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .cheat {
+    background-color: transparent;
+    color: rgb(185, 185, 185);
+    border: none;
   }
   .board {
     display: grid;
