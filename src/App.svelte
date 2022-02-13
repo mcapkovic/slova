@@ -1,7 +1,8 @@
 <script>
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
-  import Toast from './toast/Toast.svelte';
+  import Toast from "./toast/Toast.svelte";
+  import { notifications } from "./toast/notifications.js";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
   import { DEFAULT_GAME_STATE } from "./constants.js";
@@ -12,12 +13,12 @@
   let gameState = DEFAULT_GAME_STATE;
 
   function looseGame() {
-    alert(`prehral si. slovo bolo "${solution}"`);
+    notifications.default(`Prehral si. Slovo bolo "${solution}"`, 5000);
     activeRow = 99;
   }
 
   function winGame() {
-    alert("vyhral si");
+    notifications.default("Huraaa, vyhral si!", 1000);
     activeRow = 99;
   }
 
