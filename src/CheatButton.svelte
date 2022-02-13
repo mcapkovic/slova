@@ -1,7 +1,7 @@
 <script>
   import { notifications } from "./toast/notifications.js";
   export let secret = "";
-  
+
   let counter = 0;
 
   function handleClick() {
@@ -21,5 +21,6 @@
     cursor: pointer;
     height: 100%;
     width: 2rem;
+    touch-action: manipulation;
   }
 </style>
