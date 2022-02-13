@@ -1,6 +1,7 @@
 <script>
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
+  import Toast from './toast/Toast.svelte';
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
   import { DEFAULT_GAME_STATE } from "./constants.js";
@@ -49,6 +50,7 @@
     {/each}
   </div>
   <Keyboard {gameState} />
+  <Toast />
 </main>
 
 <style>

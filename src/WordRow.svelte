@@ -1,5 +1,6 @@
 <script>
   import Letter from "./Letter.svelte";
+  import { notifications } from "./toast/notifications.js";
   import { addLetter, removeLetter, removeAccents } from "./utils.js";
   import { KEYS, TILE_STATE } from "./constants";
   export let solution = "";
@@ -15,7 +16,7 @@
   function submitWord() {
     const noAccentWord = removeAccents(typedWord);
     if (!noAccentWords.includes(noAccentWord))
-      return alert("toto slovo nemam v slovniku");
+      return notifications.default("Toto slovo nemam v slovniku", 1000);
 
     const availableLetters = {};
     for (const letter of noAccentSolution) {
