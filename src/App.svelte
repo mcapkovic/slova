@@ -2,6 +2,7 @@
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
   import Toast from "./toast/Toast.svelte";
+  import CheatButton from './CheatButton.svelte';
   import { notifications } from "./toast/notifications.js";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
@@ -33,12 +34,10 @@
 
 <main>
   <header class="header">
-    <button class="cheat" on:click={() => alert(`slovo je '${solution}'`)}
-      >chcem podvadzat</button
-    >
+    <CheatButton secret={solution} />
     <a href="https://www.nytimes.com/games/wordle/index.html"> original game</a>
+    
   </header>
-
   <div class="board">
     {#each [1, 2, 3, 4, 5, 6] as rowNumber, i}
       <WordRow
