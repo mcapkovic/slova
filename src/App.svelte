@@ -2,18 +2,20 @@
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
   import Toast from "./toast/Toast.svelte";
-  import CheatButton from './CheatButton.svelte';
+  import CheatButton from "./CheatButton.svelte";
   import { notifications } from "./toast/notifications.js";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
   import { DEFAULT_GAME_STATE } from "./constants.js";
+  import { gameState } from "./store";
 
+  const { boardState, word } = $gameState;
   let noAccentWords = allWords.map((x) => removeAccents(x));
-  let solution = allWords[(allWords.length * Math.random()) | 0].toLowerCase();
-  let activeRow = 1;
-  let gameState = DEFAULT_GAME_STATE;
+  let solution =
+    word || allWords[(allWords.length * Math.random()) | 0].toLowerCase();
+  let activeRow = boardState.length || 0;
 
-  function looseGame() {
+  function loseGame() {
     notifications.default(`Prehral si. Slovo bolo "${solution}"`, 5000);
     activeRow = 99;
   }
@@ -23,33 +25,36 @@
     activeRow = 99;
   }
 
-  function nextRow(rowState, isWinner) {
-    gameState.words[activeRow - 1] = rowState.typedWord;
-    gameState.validations[activeRow - 1] = rowState.tilesState;
-
-    if (activeRow === 6 && !isWinner) return looseGame();
+  function nextRow(isWinner, isLoser) {
+    if (isWinner) return winGame();
+    if (isLoser) return loseGame();
     activeRow += 1;
+  }
+
+  function gameReset() {
+    gameState.set(DEFAULT_GAME_STATE);
+    window.location.reload(false);
   }
 </script>
 
 <main>
   <header class="header">
     <CheatButton secret={solution} />
+    <button on:click={gameReset}>reset game</button>
     <a href="https://www.nytimes.com/games/wordle/index.html"> original game</a>
-    
   </header>
   <div class="board">
-    {#each [1, 2, 3, 4, 5, 6] as rowNumber, i}
+    {#each [0, 1, 2, 3, 4, 5] as rowIndex, i}
       <WordRow
         {solution}
         {noAccentWords}
-        active={activeRow === rowNumber}
+        active={activeRow === rowIndex}
         {nextRow}
-        {winGame}
+        {rowIndex}
       />
     {/each}
   </div>
-  <Keyboard {gameState} />
+  <Keyboard />
   <Toast />
 </main>
 
@@ -91,11 +96,6 @@
     justify-content: space-between;
   }
 
-  .cheat {
-    background-color: transparent;
-    color: rgb(185, 185, 185);
-    border: none;
-  }
   .board {
     display: grid;
     grid-template-rows: repeat(6, 1fr);

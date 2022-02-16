@@ -1,17 +1,30 @@
 <script>
   import Letter from "./Letter.svelte";
   import { notifications } from "./toast/notifications.js";
-  import { addLetter, removeLetter, removeAccents } from "./utils.js";
+  import {
+    addLetter,
+    removeLetter,
+    removeAccents,
+    getGameState,
+  } from "./utils.js";
   import { KEYS, TILE_STATE } from "./constants";
+  import { gameState } from "./store";
+
   export let solution = "";
   export let noAccentWords = [];
   export let active = false;
   export let nextRow = () => {};
-  export let winGame = () => {};
+  export let rowIndex = 0;
+
+  const storedBoardState = $gameState.boardState[rowIndex] || {};
 
   let noAccentSolution = removeAccents(solution);
-  let typedWord = "";
-  let tilesState = Array.from({ length: 5 }, () => TILE_STATE.FILLED);
+  let typedWord = storedBoardState.typedWord || "";
+  let tilesState =
+    storedBoardState.tilesState ||
+    Array.from({ length: 5 }, () => TILE_STATE.FILLED);
+
+  console.log(storedBoardState);
 
   function submitWord() {
     const noAccentWord = removeAccents(typedWord);
@@ -49,10 +62,25 @@
     }
 
     const isWinner = noAccentSolution === noAccentWord;
-    nextRow({ tilesState, typedWord }, isWinner);
-    if (!isWinner) return;
-    typedWord = solution;
-    winGame();
+    const isLoser = !isWinner && rowIndex === 5;
+    if (isWinner) typedWord = solution;
+
+    nextRow(isWinner, isLoser);
+
+    gameState.update((state) => {
+      const newBoardState = [...state.boardState];
+      newBoardState[rowIndex] = {
+        tilesState,
+        typedWord: isWinner ? solution : typedWord,
+        noAccentWord,
+      };
+      return {
+        ...state,
+        word: solution,
+        gameState: getGameState(isWinner, isLoser),
+        boardState: newBoardState,
+      };
+    });
   }
 
   function handleKeyDown(e) {
