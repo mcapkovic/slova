@@ -3,8 +3,7 @@
   import Keyboard from "./Keyboard.svelte";
   import Toast from "./toast/Toast.svelte";
   import CheatButton from "./CheatButton.svelte";
-  import EndGameModal from './EndGameModal.svelte'
-  import { notifications } from "./toast/notifications.js";
+  import EndGameModal from "./EndGameModal.svelte";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
   import { gameStore } from "./store";
@@ -15,20 +14,10 @@
     word || allWords[(allWords.length * Math.random()) | 0].toLowerCase();
   let activeRow = boardState.length || 0;
 
-  function loseGame() {
-    activeRow = 99;
-  }
-
-  function winGame() {
-    activeRow = 99;
-  }
-
   function nextRow(isWinner, isLoser) {
-    if (isWinner) return winGame();
-    if (isLoser) return loseGame();
+    if (isWinner || isLoser) return (activeRow = 99);
     activeRow += 1;
   }
-
 </script>
 
 <main>
