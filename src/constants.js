@@ -4,16 +4,22 @@ export const CORRECT = "CORRECT";
 export const PRESENT = "PRESENT";
 export const ABSENT = "ABSENT";
 
-export const BASIC_STATE = {
+export const KEY_STATE = {
   CORRECT: "CORRECT",
   PRESENT: "PRESENT",
   ABSENT: "ABSENT",
 };
 
 export const TILE_STATE = {
-  ...BASIC_STATE,
+  ...KEY_STATE,
   FILLED: "FILLED",
   EMPTY: "EMPTY",
+};
+
+export const GAME_STATE = {
+  IN_PROGRESS: "IN_PROGRESS",
+  WIN: "WIN",
+  LOSE: "LOSE",
 };
 
 export const KEYS = {
@@ -22,12 +28,14 @@ export const KEYS = {
 };
 
 export const DEFAULT_GAME_STATE = {
-  words: [],
-  validations: [],
+  boardState: [],
+  word: undefined,
 };
 
 export const DEFAULT_KEYBOARD_STATE = {
-  [BASIC_STATE.CORRECT]: [],
-  [BASIC_STATE.PRESENT]: [],
-  [BASIC_STATE.ABSENT]: [],
+  [KEY_STATE.CORRECT]: [],
+  [KEY_STATE.PRESENT]: [],
+  [KEY_STATE.ABSENT]: [],
 };
+
+export const WORD_LENGTH = 5

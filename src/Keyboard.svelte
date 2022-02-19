@@ -2,7 +2,9 @@
   import Key from "./Key.svelte";
   import { DEFAULT_GAME_STATE, DEFAULT_KEYBOARD_STATE } from "./constants.js";
   import { getKeysState } from "./utils";
-  export let gameState = DEFAULT_GAME_STATE;
+  import { gameStore } from "./store";
+
+  $:boardState  = $gameStore.boardState || DEFAULT_GAME_STATE.boardState ;
 
   let keysState = DEFAULT_KEYBOARD_STATE;
   const rows = [
@@ -11,7 +13,7 @@
     ["Enter", "y", "x", "c", "v", "b", "n", "m", "Backspace"],
   ];
 
-  $: keysState = getKeysState(gameState);
+  $: keysState = getKeysState(boardState);
 </script>
 
 <div class="keyboard">

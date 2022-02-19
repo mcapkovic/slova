@@ -1,6 +1,6 @@
 <script>
   import { getClassNames, getKeyState } from "./utils.js";
-  import { BASIC_STATE, DEFAULT_KEYBOARD_STATE } from "./constants.js";
+  import { KEY_STATE, DEFAULT_KEYBOARD_STATE } from "./constants.js";
   export let keyValue = "";
   export let flex = 1;
   export let keyboardState = DEFAULT_KEYBOARD_STATE;
@@ -25,9 +25,9 @@
   style={`flex: ${flex}`}
   bind:this={buttonRef}
   class={getClassNames("tile", {
-    correct: keyState === BASIC_STATE.CORRECT,
-    present: keyState === BASIC_STATE.PRESENT,
-    absent: keyState === BASIC_STATE.ABSENT,
+    correct: keyState === KEY_STATE.CORRECT,
+    present: keyState === KEY_STATE.PRESENT,
+    absent: keyState === KEY_STATE.ABSENT,
   })}
 >
   {keySymbol}

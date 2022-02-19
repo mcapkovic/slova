@@ -1,4 +1,10 @@
-import { DEFAULT_KEYBOARD_STATE } from "./constants";
+import {
+  DEFAULT_KEYBOARD_STATE,
+  GAME_STATE,
+  KEY_STATE,
+  KEYS,
+  WORD_LENGTH,
+} from "./constants";
 
 export function removeLetter(word) {
   if (word.length < 2) return "";
@@ -29,14 +35,14 @@ export function removeAccents(str) {
   return str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
 }
 
-export function getKeysState(gameState) {
-  const { words, validations } = gameState;
+export function getKeysState(boardState) {
   const newKeyState = DEFAULT_KEYBOARD_STATE;
 
-  validations.forEach((wordValidation, rowIndex) => {
-    wordValidation.forEach((leterValidation, letterIndex) => {
-      const letter = words[rowIndex][letterIndex];
-      newKeyState[leterValidation] = [...newKeyState[leterValidation], letter];
+  boardState.forEach((row, rowIndex) => {
+    const word = row.noAccentWord || "";
+    row.tilesState.forEach((tileState, letterIndex) => {
+      const letter = word[letterIndex];
+      newKeyState[tileState] = [...newKeyState[tileState], letter];
     });
   });
 
@@ -44,8 +50,30 @@ export function getKeysState(gameState) {
 }
 
 export function getKeyState(keyValue, keyboardState) {
-  if (keyboardState?.CORRECT.includes(keyValue)) return "CORRECT";
-  if (keyboardState?.PRESENT.includes(keyValue)) return "PRESENT";
-  if (keyboardState?.ABSENT.includes(keyValue)) return "ABSENT";
+  if (keyboardState?.CORRECT.includes(keyValue)) return KEY_STATE.CORRECT;
+  if (keyboardState?.PRESENT.includes(keyValue)) return KEY_STATE.PRESENT;
+  if (keyboardState?.ABSENT.includes(keyValue)) return KEY_STATE.ABSENT;
   return "";
+}
+
+export function getGameState(isWinner, isLoser) {
+  if (isWinner) return GAME_STATE.WIN;
+  if (isLoser) return GAME_STATE.LOSE;
+  return GAME_STATE.IN_PROGRESS;
+}
+
+export function isEnterKey(key) {
+  return key === KEYS.ENTER;
+}
+
+export function isBackspaceKey(key) {
+  return key === KEYS.BACKSPACE;
+}
+
+export function isLetter(key) {
+  return /^\p{L}$/u.test(key);
+}
+
+export function isRowSubmit(key, letterCount) {
+  return key === KEYS.ENTER && letterCount === WORD_LENGTH;
 }

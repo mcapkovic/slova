@@ -2,32 +2,20 @@
   import WordRow from "./WordRow.svelte";
   import Keyboard from "./Keyboard.svelte";
   import Toast from "./toast/Toast.svelte";
-  import CheatButton from './CheatButton.svelte';
-  import { notifications } from "./toast/notifications.js";
+  import CheatButton from "./CheatButton.svelte";
+  import EndGameModal from "./EndGameModal.svelte";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
-  import { DEFAULT_GAME_STATE } from "./constants.js";
+  import { gameStore } from "./store";
 
+  const { boardState, word } = $gameStore;
   let noAccentWords = allWords.map((x) => removeAccents(x));
-  let solution = allWords[(allWords.length * Math.random()) | 0].toLowerCase();
-  let activeRow = 1;
-  let gameState = DEFAULT_GAME_STATE;
+  let solution =
+    word || allWords[(allWords.length * Math.random()) | 0].toLowerCase();
+  let activeRow = boardState.length || 0;
 
-  function looseGame() {
-    notifications.default(`Prehral si. Slovo bolo "${solution}"`, 5000);
-    activeRow = 99;
-  }
-
-  function winGame() {
-    notifications.default("Huraaa, vyhral si!", 1000);
-    activeRow = 99;
-  }
-
-  function nextRow(rowState, isWinner) {
-    gameState.words[activeRow - 1] = rowState.typedWord;
-    gameState.validations[activeRow - 1] = rowState.tilesState;
-
-    if (activeRow === 6 && !isWinner) return looseGame();
+  function nextRow(isWinner, isLoser) {
+    if (isWinner || isLoser) return (activeRow = 99);
     activeRow += 1;
   }
 </script>
@@ -36,21 +24,21 @@
   <header class="header">
     <CheatButton secret={solution} />
     <a href="https://www.nytimes.com/games/wordle/index.html"> original game</a>
-    
   </header>
   <div class="board">
-    {#each [1, 2, 3, 4, 5, 6] as rowNumber, i}
+    {#each [0, 1, 2, 3, 4, 5] as rowIndex, i}
       <WordRow
         {solution}
         {noAccentWords}
-        active={activeRow === rowNumber}
+        active={activeRow === rowIndex}
         {nextRow}
-        {winGame}
+        {rowIndex}
       />
     {/each}
   </div>
-  <Keyboard {gameState} />
+  <Keyboard />
   <Toast />
+  <EndGameModal />
 </main>
 
 <style>
@@ -68,10 +56,13 @@
     --tile-text-color: #ffffff;
     --tile-border-color: #3a3a3c;
     --tile-border-color-filled: #565758;
+    --key-color: gray;
     --absent-color: #3a3a3c;
     --correct-color: #538d4e;
     --present-color: #b59f3b;
     --background-color: #121213;
+    --modal-bg-color: #202020;
+    --text-color: #ffffff;
   }
 
   header {
@@ -91,11 +82,6 @@
     justify-content: space-between;
   }
 
-  .cheat {
-    background-color: transparent;
-    color: rgb(185, 185, 185);
-    border: none;
-  }
   .board {
     display: grid;
     grid-template-rows: repeat(6, 1fr);
