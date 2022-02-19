@@ -1,8 +1,8 @@
 import { writable } from "svelte/store";
 import { DEFAULT_GAME_STATE } from "./constants.js";
 
-const storedGameState = JSON.parse(localStorage.getItem("gameState"));
-export const gameState = writable(storedGameState || DEFAULT_GAME_STATE );
-gameState.subscribe((value) => {
-  localStorage.setItem("gameState", JSON.stringify(value) );
+const storedGameStore = JSON.parse(localStorage.getItem("gameStore"));
+export const gameStore = writable(storedGameStore || DEFAULT_GAME_STATE );
+gameStore.subscribe((value) => {
+  localStorage.setItem("gameStore", JSON.stringify(value) );
 });

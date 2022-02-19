@@ -3,25 +3,23 @@
   import Keyboard from "./Keyboard.svelte";
   import Toast from "./toast/Toast.svelte";
   import CheatButton from "./CheatButton.svelte";
+  import EndGameModal from './EndGameModal.svelte'
   import { notifications } from "./toast/notifications.js";
   import { allWords } from "./slovakWords.js";
   import { removeAccents } from "./utils.js";
-  import { DEFAULT_GAME_STATE } from "./constants.js";
-  import { gameState } from "./store";
+  import { gameStore } from "./store";
 
-  const { boardState, word } = $gameState;
+  const { boardState, word } = $gameStore;
   let noAccentWords = allWords.map((x) => removeAccents(x));
   let solution =
     word || allWords[(allWords.length * Math.random()) | 0].toLowerCase();
   let activeRow = boardState.length || 0;
 
   function loseGame() {
-    notifications.default(`Prehral si. Slovo bolo "${solution}"`, 5000);
     activeRow = 99;
   }
 
   function winGame() {
-    notifications.default("Huraaa, vyhral si!", 1000);
     activeRow = 99;
   }
 
@@ -31,16 +29,11 @@
     activeRow += 1;
   }
 
-  function gameReset() {
-    gameState.set(DEFAULT_GAME_STATE);
-    window.location.reload(false);
-  }
 </script>
 
 <main>
   <header class="header">
     <CheatButton secret={solution} />
-    <button on:click={gameReset}>reset game</button>
     <a href="https://www.nytimes.com/games/wordle/index.html"> original game</a>
   </header>
   <div class="board">
@@ -56,6 +49,7 @@
   </div>
   <Keyboard />
   <Toast />
+  <EndGameModal />
 </main>
 
 <style>
@@ -73,10 +67,13 @@
     --tile-text-color: #ffffff;
     --tile-border-color: #3a3a3c;
     --tile-border-color-filled: #565758;
+    --key-color: gray;
     --absent-color: #3a3a3c;
     --correct-color: #538d4e;
     --present-color: #b59f3b;
     --background-color: #121213;
+    --modal-bg-color: #202020;
+    --text-color: #ffffff;
   }
 
   header {

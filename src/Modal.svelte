@@ -53,15 +53,14 @@
   role="dialog"
   aria-modal="true"
   bind:this={modal}
-  transition:fly={{ y: 30}}
+  transition:fly={{ y: 30 }}
 >
-  <slot name="header" />
-  <hr />
-  <slot />
-  <hr />
+  <div class="header"><slot name="header" /></div>
+  <div class="content"><slot /></div>
+  <div class="footer"><slot name="footer" /></div>
 
   <!-- svelte-ignore a11y-autofocus -->
-  <button autofocus on:click={close}>close modal</button>
+  <button class="close-button" autofocus on:click={close}>✕</button>
 </div>
 
 <style>
@@ -89,7 +88,24 @@
     color: var(--text-color);
   }
 
-  button {
-    display: block;
+  .content {
+    padding-bottom: 1em;
+  }
+
+  .footer{
+	  display: flex;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: var(--text-color);
+    background-color: transparent;
+    border: none;
+  }
+
+  .close-button:active {
+    background-color: transparent;
   }
 </style>

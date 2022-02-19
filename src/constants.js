@@ -37,3 +37,5 @@ export const DEFAULT_KEYBOARD_STATE = {
   [KEY_STATE.PRESENT]: [],
   [KEY_STATE.ABSENT]: [],
 };
+
+export const WORD_LENGTH = 5

@@ -1,4 +1,10 @@
-import { DEFAULT_KEYBOARD_STATE, GAME_STATE, KEY_STATE } from "./constants";
+import {
+  DEFAULT_KEYBOARD_STATE,
+  GAME_STATE,
+  KEY_STATE,
+  KEYS,
+  WORD_LENGTH,
+} from "./constants";
 
 export function removeLetter(word) {
   if (word.length < 2) return "";
@@ -54,4 +60,20 @@ export function getGameState(isWinner, isLoser) {
   if (isWinner) return GAME_STATE.WIN;
   if (isLoser) return GAME_STATE.LOSE;
   return GAME_STATE.IN_PROGRESS;
+}
+
+export function isEnterKey(key) {
+  return key === KEYS.ENTER;
+}
+
+export function isBackspaceKey(key) {
+  return key === KEYS.BACKSPACE;
+}
+
+export function isLetter(key) {
+  return /^\p{L}$/u.test(key);
+}
+
+export function isRowSubmit(key, letterCount) {
+  return key === KEYS.ENTER && letterCount === WORD_LENGTH;
 }

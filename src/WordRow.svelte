@@ -6,9 +6,13 @@
     removeLetter,
     removeAccents,
     getGameState,
+    isEnterKey,
+    isBackspaceKey,
+    isLetter,
+    isRowSubmit,
   } from "./utils.js";
-  import { KEYS, TILE_STATE } from "./constants";
-  import { gameState } from "./store";
+  import { WORD_LENGTH, TILE_STATE } from "./constants";
+  import { gameStore } from "./store";
 
   export let solution = "";
   export let noAccentWords = [];
@@ -16,13 +20,13 @@
   export let nextRow = () => {};
   export let rowIndex = 0;
 
-  const storedBoardState = $gameState.boardState[rowIndex] || {};
+  const storedBoardState = $gameStore.boardState[rowIndex] || {};
 
   let noAccentSolution = removeAccents(solution);
   let typedWord = storedBoardState.typedWord || "";
   let tilesState =
     storedBoardState.tilesState ||
-    Array.from({ length: 5 }, () => TILE_STATE.FILLED);
+    Array.from({ length: WORD_LENGTH }, () => TILE_STATE.FILLED);
 
   console.log(storedBoardState);
 
@@ -67,7 +71,7 @@
 
     nextRow(isWinner, isLoser);
 
-    gameState.update((state) => {
+    gameStore.update((state) => {
       const newBoardState = [...state.boardState];
       newBoardState[rowIndex] = {
         tilesState,
@@ -86,11 +90,13 @@
   function handleKeyDown(e) {
     const { key } = e;
 
-    if (key === KEYS.BACKSPACE) {
+    if (isEnterKey(key)) e.preventDefault();
+
+    if (isBackspaceKey(key)) {
       typedWord = removeLetter(typedWord);
-    } else if (key === KEYS.ENTER && typedWord.length === 5) {
+    } else if (isRowSubmit(key, typedWord.length)) {
       submitWord();
-    } else if (/^\p{L}$/u.test(key)) {
+    } else if (isLetter(key)) {
       typedWord = addLetter(typedWord, key).toLowerCase();
     }
   }
