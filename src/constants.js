@@ -39,3 +39,8 @@ export const DEFAULT_KEYBOARD_STATE = {
 };
 
 export const WORD_LENGTH = 5
+
+export const TILLE_DELAY = [0,150, 200, 250, 400]
+
+export const END_GAME_DIALOG_DELAY = 1100
+

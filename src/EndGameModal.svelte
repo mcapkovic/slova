@@ -1,6 +1,10 @@
 <script>
   import Modal from "./Modal.svelte";
-  import { DEFAULT_GAME_STATE, GAME_STATE } from "./constants.js";
+  import {
+    DEFAULT_GAME_STATE,
+    GAME_STATE,
+    END_GAME_DIALOG_DELAY,
+  } from "./constants.js";
   import { gameStore } from "./store";
 
   let modalType = "";
@@ -9,7 +13,7 @@
   $: if (gameState === GAME_STATE.WIN || gameState === GAME_STATE.LOSE) {
     setTimeout(() => {
       modalType = gameState;
-    }, 300);
+    }, END_GAME_DIALOG_DELAY);
   }
 
   function gameReset() {
