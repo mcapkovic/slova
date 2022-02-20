@@ -113,6 +113,7 @@
     <Letter
       letter={typedWord[i] || ""}
       tileState={typedWord[i] ? tileState : TILE_STATE.EMPTY}
+      position={i}
     />
   {/each}
 </div>
