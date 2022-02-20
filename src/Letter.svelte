@@ -44,7 +44,7 @@
   .present,
   .absent {
     animation-duration: 500ms;
-    animation-timing-function: ease-in;
+    animation-timing-function: ease-in, step-end;
     animation-fill-mode: forwards;
   }
 
@@ -65,11 +65,11 @@
       background-color: transparent;
     }
     50% {
-      background-color: transparent;
-    }
+      background-color: var(--correct-color);
+    } 
     to {
       background-color: var(--correct-color);
-    }
+    } 
   }
 
   @keyframes PresentColor {
@@ -77,7 +77,7 @@
       background-color: transparent;
     }
     50% {
-      background-color: transparent;
+      background-color: var(--present-color);
     }
     to {
       background-color: var(--present-color);
@@ -89,7 +89,7 @@
       background-color: transparent;
     }
     50% {
-      background-color: transparent;
+      background-color: var(--absent-color);
     }
     to {
       background-color: var(--absent-color);
