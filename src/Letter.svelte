@@ -1,18 +1,17 @@
 <script>
-  import { getClassNames } from "./utils.js";
   import { TILE_STATE } from "./constants";
   export let letter;
   export let tileState;
 </script>
 
 <div
-  class={getClassNames("tile", {
-    filled: tileState === TILE_STATE.FILLED,
-    empty: tileState === TILE_STATE.EMPTY,
-    correct: tileState === TILE_STATE.CORRECT,
-    present: tileState === TILE_STATE.PRESENT,
-    absent: tileState === TILE_STATE.ABSENT,
-  })}
+  class="tile"
+  class:actfilledive={tileState === TILE_STATE.FILLED}
+  class:filled={tileState === TILE_STATE.FILLED}
+  class:empty={tileState === TILE_STATE.EMPTY}
+  class:correct={tileState === TILE_STATE.CORRECT}
+  class:present={tileState === TILE_STATE.PRESENT}
+  class:absent={tileState === TILE_STATE.ABSENT}
 >
   {letter || ""}
 </div>
