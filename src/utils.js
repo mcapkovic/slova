@@ -77,3 +77,16 @@ export function isLetter(key) {
 export function isRowSubmit(key, letterCount) {
   return key === KEYS.ENTER && letterCount === WORD_LENGTH;
 }
+
+/** * Implementation of XorShift * algorithm in JavaScript * with 2's complement
+ * https://svijaykoushik.github.io/blog/2019/10/04/three-awesome-ways-to-generate-random-number-in-javascript/
+ */
+export function xorShift(originalSeed) {
+  let seed = originalSeed;
+
+  seed ^= seed << 13;
+  seed ^= seed >> 17;
+  seed ^= seed << 5;
+
+  return seed < 0 ? ~seed + 1 : seed; //2's complement of the negative result to make all numbers positive.
+}
