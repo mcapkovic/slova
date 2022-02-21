@@ -6,12 +6,10 @@
   export let keyboardState = DEFAULT_KEYBOARD_STATE;
 
   const keySymbol = keyValue === "Backspace" ? "⌫" : keyValue;
-  let buttonRef;
 
   $: keyState = getKeyState(keyValue, keyboardState);
 
   function handleClick() {
-    buttonRef.blur();
     document.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: keyValue,
@@ -23,7 +21,6 @@
 <button
   on:click={handleClick}
   style={`flex: ${flex}`}
-  bind:this={buttonRef}
   class={getClassNames("tile", {
     correct: keyState === KEY_STATE.CORRECT,
     present: keyState === KEY_STATE.PRESENT,
