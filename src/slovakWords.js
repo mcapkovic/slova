@@ -890,7 +890,6 @@ export const allWords = [
 	'lavór',
 	'ľapot',
 	'dokár',
-	'hovno',
 	'hrana',
 	'hrada',
 	'hrant',
