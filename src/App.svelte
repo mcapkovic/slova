@@ -6,7 +6,7 @@
   import EndGameModal from "./components/EndGameModal.svelte";
 
   import { allWords } from "./utils/slovakWords.js";
-  import { removeAccents } from "./utils/utils.js";
+  import { removeAccents } from "./utils/common.js";
   
   import { gameStore } from "./store";
 

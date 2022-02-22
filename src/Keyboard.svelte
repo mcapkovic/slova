@@ -1,13 +1,10 @@
 <script>
   import Key from "./Key.svelte";
-  import {
-    DEFAULT_GAME_STATE,
-    DEFAULT_KEYBOARD_STATE,
-  } from "../utils/constants.js";
-  import { getKeysState } from "../utils/common";
-  import { gameStore } from "../store";
+  import { DEFAULT_GAME_STATE, DEFAULT_KEYBOARD_STATE } from "./utils/constants.js";
+  import { getKeysState } from "./utils/common";
+  import { gameStore } from "./store";
 
-  $: boardState = $gameStore.boardState || DEFAULT_GAME_STATE.boardState;
+  $:boardState  = $gameStore.boardState || DEFAULT_GAME_STATE.boardState ;
 
   let keysState = DEFAULT_KEYBOARD_STATE;
   const rows = [

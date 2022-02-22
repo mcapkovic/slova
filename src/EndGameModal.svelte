@@ -4,9 +4,9 @@
     DEFAULT_GAME_STATE,
     GAME_STATE,
     END_GAME_DIALOG_DELAY,
-  } from "../utils/constants.js";
-  import { generateBoardPreview } from "../utils/common";
-  import { gameStore } from "../store";
+  } from "./utils/constants.js";
+  import { gameStore } from "./store";
+  import { generateBoardPreview } from "./utils/common";
 
   let modalType = "";
   $: ({ gameState, word, boardState = [] } = $gameStore);
