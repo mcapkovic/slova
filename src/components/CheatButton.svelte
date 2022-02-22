@@ -1,5 +1,6 @@
 <script>
   import { notifications } from "./toast/notifications.js";
+  
   export let secret = "";
 
   let counter = 0;

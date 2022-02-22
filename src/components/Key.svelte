@@ -1,6 +1,7 @@
 <script>
-  import { getClassNames, getKeyState } from "./utils.js";
-  import { KEY_STATE, DEFAULT_KEYBOARD_STATE } from "./constants.js";
+  import { getClassNames, getKeyState } from "../utils/utils.js";
+  import { KEY_STATE, DEFAULT_KEYBOARD_STATE } from "../utils/constants.js";
+  
   export let keyValue = "";
   export let flex = 1;
   export let keyboardState = DEFAULT_KEYBOARD_STATE;

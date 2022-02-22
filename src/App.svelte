@@ -1,11 +1,13 @@
 <script>
-  import WordRow from "./WordRow.svelte";
-  import Keyboard from "./Keyboard.svelte";
-  import Toast from "./toast/Toast.svelte";
-  import CheatButton from "./CheatButton.svelte";
-  import EndGameModal from "./EndGameModal.svelte";
-  import { allWords } from "./slovakWords.js";
-  import { removeAccents } from "./utils.js";
+  import WordRow from "./components/WordRow.svelte";
+  import Keyboard from "./components/Keyboard.svelte";
+  import Toast from "./components/toast/Toast.svelte";
+  import CheatButton from "./components/CheatButton.svelte";
+  import EndGameModal from "./components/EndGameModal.svelte";
+
+  import { allWords } from "./utils/slovakWords.js";
+  import { removeAccents } from "./utils/utils.js";
+  
   import { gameStore } from "./store";
 
   const { boardState, word } = $gameStore;

@@ -1,5 +1,6 @@
 <script>
-  import { TILE_STATE, TILLE_DELAY } from "./constants";
+  import { TILE_STATE, TILLE_DELAY } from "../utils/constants";
+
   export let letter;
   export let tileState;
   export let position = 0;
@@ -66,10 +67,10 @@
     }
     50% {
       background-color: var(--correct-color);
-    } 
+    }
     to {
       background-color: var(--correct-color);
-    } 
+    }
   }
 
   @keyframes PresentColor {

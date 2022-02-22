@@ -10,9 +10,9 @@
     isBackspaceKey,
     isLetter,
     isRowSubmit,
-  } from "./utils.js";
-  import { WORD_LENGTH, TILE_STATE } from "./constants";
-  import { gameStore } from "./store";
+  } from "../utils/utils.js";
+  import { WORD_LENGTH, TILE_STATE } from "../utils/constants";
+  import { gameStore } from "../store";
 
   export let solution = "";
   export let noAccentWords = [];
