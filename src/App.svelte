@@ -3,7 +3,7 @@
   import Keyboard from "./components/Keyboard.svelte";
   import Toast from "./components/toast/Toast.svelte";
   import CheatButton from "./components/CheatButton.svelte";
-  import EndGameModal from "./components/EndGameModal.svelte";
+  import EndGameModal from "./components/EndGameModal/EndGameModal.svelte";
 
   import { allWords } from "./utils/slovakWords.js";
   import { removeAccents } from "./utils/common.js";
