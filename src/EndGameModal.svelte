@@ -6,9 +6,10 @@
     END_GAME_DIALOG_DELAY,
   } from "./constants.js";
   import { gameStore } from "./store";
+  import { generateBoardPreview } from "./utils";
 
   let modalType = "";
-  $: ({ gameState, word } = $gameStore);
+  $: ({ gameState, word, boardState = [] } = $gameStore);
 
   $: if (gameState === GAME_STATE.WIN || gameState === GAME_STATE.LOSE) {
     setTimeout(() => {
@@ -25,6 +26,7 @@
 {#if modalType === GAME_STATE.WIN}
   <Modal on:close={() => (modalType = "")}>
     <h2 slot="header">Vyhral si :)</h2>
+    <pre>{generateBoardPreview(boardState)}</pre>
     <button class="reset-button" slot="footer" on:click={gameReset}
       >Hraj znova</button
     >
@@ -47,5 +49,9 @@
     background-color: #484848;
     color: white;
     border: none;
+  }
+  pre {
+    text-align: center;
+    font-size: 25px;
   }
 </style>

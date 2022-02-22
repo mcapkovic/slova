@@ -43,3 +43,9 @@ export const WORD_LENGTH = 5;
 export const TILLE_DELAY = [100, 170, 210, 250, 350];
 
 export const END_GAME_DIALOG_DELAY = 1000;
+
+export const TILE_SYMBOL = {
+  [KEY_STATE.CORRECT]: '🟩',
+  [KEY_STATE.PRESENT]: '🟨',
+  [KEY_STATE.ABSENT]: '⬛',
+}
