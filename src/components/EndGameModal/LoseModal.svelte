@@ -6,8 +6,7 @@
   export let closeModal = () => {};
   export let gameReset = () => {};
 
-  let modalType = "";
-  const { gameState, word, boardState = [] } = $gameStore;
+  const { word } = $gameStore;
 </script>
 
 <Modal on:close={closeModal}>

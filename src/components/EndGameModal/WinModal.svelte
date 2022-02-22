@@ -6,12 +6,14 @@
   export let closeModal = () => {};
   export let gameReset = () => {};
 
-  const { gameState, word, boardState = [] } = $gameStore;
+  const { word, boardState = [] } = $gameStore;
+  const sharableBoard = generateBoardPreview(boardState);
+  const textToShare = `${word} ${boardState.length}/6\n${sharableBoard}`;
 </script>
 
 <Modal on:close={closeModal}>
-  <h2 slot="header">Vyhral si :)</h2>
-  <pre>{generateBoardPreview(boardState)}</pre>
+  <h2 slot="header">Vyhral si! :)</h2>
+  <pre>{textToShare}</pre>
   <button class="reset-button" slot="footer" on:click={gameReset}
     >Hraj znova</button
   >
