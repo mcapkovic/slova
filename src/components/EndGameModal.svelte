@@ -11,6 +11,7 @@
   let modalType = "";
   $: ({ gameState, word, boardState = [] } = $gameStore);
 
+  // open the modal if the game is won or lost
   $: if (gameState === GAME_STATE.WIN || gameState === GAME_STATE.LOSE) {
     setTimeout(() => {
       modalType = gameState;
