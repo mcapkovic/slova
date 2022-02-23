@@ -7,6 +7,7 @@ import {
   TILE_SYMBOL,
   TILE_STATE,
 } from "./constants";
+import { notifications } from "../components/toast/notifications";
 
 export function removeLetter(word) {
   if (word.length < 2) return "";
@@ -143,4 +144,13 @@ export function validateWord(noAccentSolution, noAccentWord) {
   }
 
   return tilesState;
+}
+
+export async function saveToClipboard(textToShare) {
+  try {
+    await navigator.clipboard.writeText(textToShare);
+    notifications.default("Výsledok bol skopírovaný", 1000);
+  } catch (error) {
+    console.error(error);
+  }
 }
