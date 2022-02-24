@@ -10,9 +10,11 @@
     isBackspaceKey,
     isLetter,
     isRowSubmit,
-  } from "./utils.js";
-  import { WORD_LENGTH, TILE_STATE } from "./constants";
-  import { gameStore } from "./store";
+    getDefaultTilesState,
+    validateWord,
+  } from "../utils/common.js";
+  import { TILE_STATE } from "../utils/constants";
+  import { gameStore } from "../store";
 
   export let solution = "";
   export let noAccentWords = [];
@@ -24,47 +26,15 @@
 
   let noAccentSolution = removeAccents(solution);
   let typedWord = storedBoardState.typedWord || "";
-  let tilesState =
-    storedBoardState.tilesState ||
-    Array.from({ length: WORD_LENGTH }, () => TILE_STATE.FILLED);
-
-  console.log(storedBoardState);
+  let tilesState = storedBoardState.tilesState || getDefaultTilesState();
 
   function submitWord() {
     const noAccentWord = removeAccents(typedWord);
     if (!noAccentWords.includes(noAccentWord))
       return notifications.default("Toto slovo nemam v slovniku", 1000);
 
-    const availableLetters = {};
-    for (const letter of noAccentSolution) {
-      if (letter in availableLetters) {
-        availableLetters[letter] += 1;
-      } else {
-        availableLetters[letter] = 1;
-      }
-    }
-
-    for (let index = 0; index < noAccentSolution.length; index++) {
-      const solutionLetter = noAccentSolution[index];
-      const quessLetter = noAccentWord[index];
-      if (solutionLetter === quessLetter) {
-        tilesState[index] = TILE_STATE.CORRECT;
-        availableLetters[solutionLetter] -= 1;
-      } else {
-        tilesState[index] = TILE_STATE.ABSENT;
-      }
-    }
-
-    for (let index = 0; index < noAccentSolution.length; index++) {
-      const solutionLetter = noAccentSolution[index];
-      const quessLetter = noAccentWord[index];
-      if (solutionLetter === quessLetter) continue;
-      if (!(quessLetter in availableLetters)) continue;
-      if (availableLetters[quessLetter] < 1) continue;
-      tilesState[index] = TILE_STATE.PRESENT;
-      availableLetters[quessLetter] -= 1;
-    }
-
+    tilesState = validateWord(noAccentSolution, noAccentWord);
+  
     const isWinner = noAccentSolution === noAccentWord;
     const isLoser = !isWinner && rowIndex === 5;
     if (isWinner) typedWord = solution;

@@ -1,5 +1,6 @@
 <script>
   import { notifications } from "./toast/notifications.js";
+
   export let secret = "";
 
   let counter = 0;
@@ -18,9 +19,14 @@
 <style>
   button {
     all: unset;
-    cursor: pointer;
+    cursor: default;
     height: 100%;
     width: 2rem;
     touch-action: manipulation;
+    
+  }
+  button:active {
+    background-color: transparent;
+    cursor: default;
   }
 </style>

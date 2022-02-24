@@ -5,7 +5,9 @@ import {
   KEYS,
   WORD_LENGTH,
   TILE_SYMBOL,
+  TILE_STATE,
 } from "./constants";
+import { notifications } from "../components/toast/notifications";
 
 export function removeLetter(word) {
   if (word.length < 2) return "";
@@ -92,13 +94,70 @@ export function xorShift(originalSeed) {
   return seed < 0 ? ~seed + 1 : seed; //2's complement of the negative result to make all numbers positive.
 }
 
-export function generateBoardPreview(boardState){
-  let board = ''
-  boardState.forEach(({tilesState} )=> {
-    tilesState.forEach(state => {
-      board += TILE_SYMBOL[state]
-    })
-    board += '\n'
-  })
-  return board
+export function generateBoardPreview(boardState) {
+  let board = "";
+  boardState.forEach(({ tilesState }) => {
+    tilesState.forEach((state) => {
+      board += TILE_SYMBOL[state];
+    });
+    board += "\n";
+  });
+  return board;
+}
+
+export function getDefaultTilesState(tileState = TILE_STATE.FILLED) {
+  return Array.from({ length: WORD_LENGTH }, () => tileState);
+}
+
+export function validateWord(noAccentSolution, noAccentWord) {
+  const tilesState = getDefaultTilesState(TILE_STATE.ABSENT);
+
+  // count solution letters
+  const availableLetters = {};
+  for (const letter of noAccentSolution) {
+    if (letter in availableLetters) {
+      availableLetters[letter] += 1;
+    } else {
+      availableLetters[letter] = 1;
+    }
+  }
+
+  // find "correct" letters
+  for (let index = 0; index < noAccentSolution.length; index++) {
+    const solutionLetter = noAccentSolution[index];
+    const quessLetter = noAccentWord[index];
+    if (solutionLetter === quessLetter) {
+      tilesState[index] = TILE_STATE.CORRECT;
+      availableLetters[solutionLetter] -= 1;
+    }
+  }
+
+  // find "present" letters
+  for (let index = 0; index < noAccentSolution.length; index++) {
+    const solutionLetter = noAccentSolution[index];
+    const quessLetter = noAccentWord[index];
+    if (solutionLetter === quessLetter) continue;
+    if (!(quessLetter in availableLetters)) continue;
+    if (availableLetters[quessLetter] < 1) continue;
+    tilesState[index] = TILE_STATE.PRESENT;
+    availableLetters[quessLetter] -= 1;
+  }
+
+  return tilesState;
+}
+
+export async function saveToClipboard(textToShare) {
+  try {
+    await navigator.clipboard.writeText(textToShare);
+    notifications.default("Výsledok bol skopírovaný", 1000);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function getDefaultActiveRow(gameState = "", loadedActiveRow = 0) {
+  if (gameState === GAME_STATE.WIN) return 99;
+  if (gameState === GAME_STATE.LOSE) return 99;
+  if (gameState === GAME_STATE.IN_PROGRESS) return loadedActiveRow;
+  return 0;
 }

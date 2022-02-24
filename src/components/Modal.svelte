@@ -57,7 +57,7 @@
 >
   <div class="header"><slot name="header" /></div>
   <div class="content"><slot /></div>
-  <div class="footer"><slot name="footer" /></div>
+  <div class="modal-footer"><slot name="footer" /></div>
 
   <!-- svelte-ignore a11y-autofocus -->
   <button class="close-button" autofocus on:click={close}>✕</button>
@@ -92,8 +92,12 @@
     padding-bottom: 1em;
   }
 
-  .footer{
-	  display: flex;
+  .modal-footer {
+    display: flex;
+  }
+
+  :global(.modal-footer > * + *) {
+    margin-left: 0.5rem;
   }
 
   .close-button {
