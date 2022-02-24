@@ -6,15 +6,15 @@
   import EndGameModal from "./components/EndGameModal/EndGameModal.svelte";
 
   import { allWords } from "./utils/slovakWords.js";
-  import { removeAccents } from "./utils/common.js";
-  
+  import { removeAccents, getDefaultActiveRow } from "./utils/common.js";
+
   import { gameStore } from "./store";
 
-  const { boardState, word } = $gameStore;
+  const { boardState, word, gameState } = $gameStore;
   let noAccentWords = allWords.map((x) => removeAccents(x));
   let solution =
     word || allWords[(allWords.length * Math.random()) | 0].toLowerCase();
-  let activeRow = boardState.length || 0;
+  let activeRow = getDefaultActiveRow(gameState, boardState.length);
 
   function nextRow(isWinner, isLoser) {
     if (isWinner || isLoser) return (activeRow = 99);

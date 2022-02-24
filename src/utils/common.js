@@ -154,3 +154,10 @@ export async function saveToClipboard(textToShare) {
     console.error(error);
   }
 }
+
+export function getDefaultActiveRow(gameState = "", loadedActiveRow = 0) {
+  if (gameState === GAME_STATE.WIN) return 99;
+  if (gameState === GAME_STATE.LOSE) return 99;
+  if (gameState === GAME_STATE.IN_PROGRESS) return loadedActiveRow;
+  return 0;
+}
